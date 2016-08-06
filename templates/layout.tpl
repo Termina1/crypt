@@ -18,8 +18,12 @@
             height: 100%;
           }
 
+          nav {
+            background: #507299;
+          }
+
           .header {
-            color: #ee6e73;
+            color: #2a5885;
             max-width: 80%;
             line-height: 1.7;
           }
