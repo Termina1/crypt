@@ -82,17 +82,18 @@ func main() {
 
   staticBox := rice.MustFindBox("static")
 
-  db, err := bolt.Open("potemkin.db", 0600, nil)
+  var port = flag.String("port", "8080", "port for server")
+  var domain = flag.String("domain", "http://localhost:8080", "server domain name")
+  var dbLocation = flag.String("db", "potemkin.db", "database file location")
+
+  flag.Parse()
+
+  db, err := bolt.Open(*dbLocation, 0600, nil)
   defer db.Close()
 
   if err != nil {
     panic(err)
   }
-
-  var port = flag.String("port", "8080", "port for server")
-  var domain = flag.String("domain", "http://localhost:8080", "server domain name")
-
-  flag.Parse()
 
   http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
     handler(w, r, tpls, db, staticBox, *domain)
