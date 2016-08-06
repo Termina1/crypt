@@ -11,7 +11,7 @@ This can be compiled in single binary, all batteries included:
 You need to have go and make tools installed:
 
 1. Clone this repository
-2. run ```make```
+2. Run ```make```
 
 
 ## Configuration
