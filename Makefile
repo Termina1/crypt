@@ -13,7 +13,7 @@ build: vendor_update \
 	go build -v -o ./bin/potemkin
 
 vendor_clean:
-	rm -dRf ./_vendor/src
+	rm -rf ./_vendor/src
 
 vendor_get: vendor_clean
 	GOPATH=${PWD}/_vendor go get \
