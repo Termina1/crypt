@@ -27,7 +27,6 @@ func readAndDelete(db *bolt.DB, uid string) (string, error) {
     b := tx.Bucket([]byte(bucket))
     result = b.Get([]byte(uid))
     err := b.Delete([]byte(uid))
-
     // bolt will reuse memory after transation, we need to topy it
     copyDest = make([]byte, len(result), (cap(result)+1)*2)
     copy(copyDest, result)

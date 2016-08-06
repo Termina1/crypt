@@ -23,11 +23,13 @@ func handler(w http.ResponseWriter, r *http.Request, tpls TplRepo, db *bolt.DB, 
     fallthrough
   case "tile.png":
     fallthrough
+  case "main.js":
+    fallthrough
   case "materialize.css":
     w.Header().Set("Content-Type", "text/css");
-    w.WriteHeader(200)
     fallthrough
   case "robots.txt":
+    w.WriteHeader(200)
     file, _ := box.Bytes(action)
     w.Write(file)
 

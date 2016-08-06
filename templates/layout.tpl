@@ -8,6 +8,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="apple-touch-icon" href="apple-touch-icon.png">
         <link rel="stylesheet" href="/materialize.css">
+        <script src="/main.js"></script>
 
         <style>
           html {
@@ -25,12 +26,13 @@
           .header {
             color: #2a5885;
             max-width: 80%;
-            line-height: 1.7;
+            line-height: 1.4;
           }
 
           .error {
             text-align: center;
             margin: auto;
+            margin-bottom: 30px;
           }
 
           .wrap {

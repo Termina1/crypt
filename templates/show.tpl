@@ -5,7 +5,14 @@
       <h4 class="">This secret was deleted, you can never access this information again</h4>
       <div class="row">
         <div class="input-field col s12">
-          <textarea class="materialize-textarea">{{.}}</textarea>
+          <textarea class="materialize-textarea _secret_show">{{.}}</textarea>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="password" type="password" class="_decrypt_pass validate" placeholder="Password (Optional End-to-End)">
+          <label for="password" data-error="Sorry, couldn't decrypt, probably unsupported by your browser."></label>
+          <button style="float: right;" type="button" class="waves-effect waves-light btn _decryptor">Decrypt</a>
         </div>
       </div>
       <div class="row">
