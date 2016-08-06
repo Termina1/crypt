@@ -3,7 +3,6 @@ package main
 import (
   "github.com/boltdb/bolt"
   "github.com/satori/go.uuid"
-  // "fmt"
 )
 
 const bucket string = "secrets";
