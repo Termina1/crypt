@@ -69,6 +69,9 @@ func handler(w http.ResponseWriter, r *http.Request, tpls TplRepo, db *bolt.DB, 
       }
     }
     tpls["layout.tpl"].Execute(w, template.HTML(tplRes.String()))
+  default:
+    w.WriteHeader(http.StatusNotFound)
+    tpls["404.html"].Execute(w, "")
   }
 }
 
