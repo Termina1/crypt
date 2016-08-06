@@ -18,3 +18,4 @@ You need to have go and make tools installed:
 
 - ```-port``` — which port should be used to start server
 - ```-domain``` — domain that this server is binded to, need this to generate correct link
+- ```-db``` — location of the db file on disk
