@@ -84,12 +84,13 @@ func main() {
     panic(err)
   }
 
-  var port = *flag.String("port", "8080", "port for server")
-  var domain = *flag.String("domain", "http://localhost:8080", "server domain name")
+  var port = flag.String("port", "8080", "port for server")
+  var domain = flag.String("domain", "http://localhost:8080", "server domain name")
+
   flag.Parse()
 
   http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-    handler(w, r, tpls, db, staticBox, domain)
+    handler(w, r, tpls, db, staticBox, *domain)
   })
-  http.ListenAndServe(":" + port, nil)
+  http.ListenAndServe(":" + *port, nil)
 }
