@@ -30,7 +30,7 @@ function keyFromPass(pass) {
     .then(function(key) {
       return crypto.subtle.deriveKey({
         name: "PBKDF2",
-         salt:new Uint8Array(16),
+         salt: new Uint8Array(16),
          iterations: 1000,
          hash: {name: "SHA-1"},
       }, key, cipherType, false, ["encrypt", "decrypt"]);
