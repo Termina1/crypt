@@ -3,9 +3,10 @@
     <div class="col s12" action="/create" method="POST">
       <h2 class="header">Potemkin never gives up</h2>
       <h4 class="">This secret was deleted, you can never access this information again</h4>
+      <input type="hidden" value="{{.salt}}" name="salt" class="_salt"/>
       <div class="row">
         <div class="input-field col s12">
-          <textarea class="materialize-textarea _secret_show">{{.}}</textarea>
+          <textarea class="materialize-textarea _secret_show">{{.secret}}</textarea>
         </div>
       </div>
       <div class="row">

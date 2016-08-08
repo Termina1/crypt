@@ -3,6 +3,7 @@
     <form class="col s12 _submit_new" action="/create" method="POST">
       <h2 class="header">Potemkin never gives up</h2>
       <h5 class="">We will generate a link for one-time sharing</h5>
+      <input type="hidden" value="" name="salt" class="_salt"/>
       <div class="row">
         <div class="input-field col s12">
           <textarea class="materialize-textarea _create_secret" name="secret" placeholder="Enter the secret you want to share..."></textarea>

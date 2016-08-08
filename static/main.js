@@ -8,7 +8,24 @@ function str2ab(str) {
 }
 
 function ab2str(buf) {
+  var bufView = new Uint16Array(buf);
+  return bufView.toString();
+}
+
+function toRealString(buf) {
   return String.fromCharCode.apply(null, new Uint16Array(buf));
+}
+
+function deab2str(str) {
+  var arr = str.split(',').map(function(i) {
+    return parseInt(i);
+  });
+  var buf = new ArrayBuffer(arr.length*2);
+  var bufView = new Uint16Array(buf);
+  arr.forEach(function(v, i) {
+    bufView[i] = v;
+  })
+  return buf;
 }
 
 function initalizeEncrypt(form) {
@@ -24,13 +41,13 @@ var cipherType = {
   length: 256,
 };
 
-function keyFromPass(pass) {
+function keyFromPass(pass, salt) {
   var bufPass = str2ab(pass);
   return crypto.subtle.importKey("raw", bufPass, { name: "PBKDF2" }, false, ["deriveKey"])
     .then(function(key) {
       return crypto.subtle.deriveKey({
         name: "PBKDF2",
-         salt: new Uint8Array(16),
+         salt: salt,
          iterations: 1000,
          hash: {name: "SHA-1"},
       }, key, cipherType, false, ["encrypt", "decrypt"]);
@@ -49,13 +66,13 @@ function encrypt(secret, key) {
 }
 
 function decrypt(cipher, key) {
-  var bufCipher = str2ab(cipher);
+  var bufCipher = deab2str(cipher);
   return crypto.subtle.decrypt({
     name: "AES-CTR",
     counter: new Uint8Array(16),
     length: 128,
   }, key, bufCipher).then(function(bufPlain) {
-    return ab2str(bufPlain);
+    return toRealString(bufPlain);
   });
 }
 
@@ -64,11 +81,14 @@ var cipherText = "";
 function decryptSecret(ev) {
   var secret = document.querySelector("._secret_show");
   var pass = document.querySelector("._decrypt_pass");
+  var saltEl = document.querySelector("._salt");
   pass.classList.remove("invalid");
 
   var originalCipher = cipherText || secret.value;
   cipherText = originalCipher;
-  keyFromPass(pass.value).then(function(key) {
+  var salt = saltEl.value.split(',').map(function(i) { return parseInt(i) });
+  salt = new Uint8Array(salt);
+  keyFromPass(pass.value, salt).then(function(key) {
     return decrypt(originalCipher, key);
   }).then(function(plaintext) {
     secret.value = plaintext;
@@ -81,8 +101,11 @@ function encryptSecret(ev) {
   var pass = document.querySelector("._encrypt_pass");
   pass.classList.remove("invalid")
   var secret = document.querySelector("._create_secret");
+  var saltEl = document.querySelector("._salt");
+  var salt = window.crypto.getRandomValues(new Uint8Array(16));
+  saltEl.value = salt.toString();
   if (pass.value) {
-    keyFromPass(pass.value).then(function(key) {
+    keyFromPass(pass.value, salt).then(function(key) {
       return encrypt(secret.value, key);
     }).then(function(cipher) {
       secret.value = cipher;
@@ -91,6 +114,7 @@ function encryptSecret(ev) {
     }).catch(function(error) {
       pass.classList.add("invalid")
       pass.value = "";
+      saltEl.value = "";
     });
     ev.preventDefault();
   }
