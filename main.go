@@ -9,7 +9,13 @@ import (
   "flag"
 )
 
-func handler(w http.ResponseWriter, r *http.Request, tpls TplRepo, db *bolt.DB, box *rice.Box, domain string) {
+type Config struct {
+  Domain string
+  SecretKey string
+  ClientKey string
+}
+
+func handler(w http.ResponseWriter, r *http.Request, tpls TplRepo, db *bolt.DB, box *rice.Box, config Config) {
   var action = r.URL.Path[1:];
   switch action {
 
@@ -45,7 +51,7 @@ func handler(w http.ResponseWriter, r *http.Request, tpls TplRepo, db *bolt.DB, 
     } else {
       body := r.FormValue("secret")
       link, storeErr := storeAndLink(db, body)
-      link = domain + "/show?uid=" + link
+      link = config.Domain + "/show?uid=" + link
       if storeErr != nil {
         tpls["error.tpl"].Execute(&tplRes, nil)
       } else {
@@ -62,8 +68,8 @@ func handler(w http.ResponseWriter, r *http.Request, tpls TplRepo, db *bolt.DB, 
     } else {
       uid := r.FormValue("uid")
       recaptcha := r.FormValue("g-recaptcha-response")
-      
-      if recaptcha != "" && checkRecaptcha(recaptcha) {
+
+      if recaptcha != "" && checkRecaptcha(config.SecretKey, recaptcha) {
         secret, readErr := readAndDelete(db, uid)
         if readErr != nil {
           tpls["error.tpl"].Execute(&tplRes, nil)
@@ -73,7 +79,10 @@ func handler(w http.ResponseWriter, r *http.Request, tpls TplRepo, db *bolt.DB, 
           tpls["show.tpl"].Execute(&tplRes, secret)
         }
       } else {
-        tpls["preshow.tpl"].Execute(&tplRes, uid)
+        tpls["preshow.tpl"].Execute(&tplRes, map[string]string{
+          "uid": uid,
+          "clientKey": config.ClientKey,
+        })
       }
     }
     tpls["layout.tpl"].Execute(w, template.HTML(tplRes.String()))
@@ -91,18 +100,21 @@ func main() {
   var port = flag.String("port", "8080", "port for server")
   var domain = flag.String("domain", "http://localhost:8080", "server domain name")
   var dbLocation = flag.String("db", "potemkin.db", "database file location")
-
+  var secretKey = flag.String("secretKey", "", "Recaptcha secret key")
+  var clientKey = flag.String("clientKey", "", "Recaptcha client key")
   flag.Parse()
 
   db, err := bolt.Open(*dbLocation, 0600, nil)
   defer db.Close()
+
+  config := Config{*domain, *secretKey, *clientKey}
 
   if err != nil {
     panic(err)
   }
 
   http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-    handler(w, r, tpls, db, staticBox, *domain)
+    handler(w, r, tpls, db, staticBox, config)
   })
   http.ListenAndServe(":" + *port, nil)
 }

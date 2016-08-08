@@ -14,8 +14,7 @@ type GoogleResponse struct {
   Hostname string
 }
 
-func checkRecaptcha(response string) (bool) {
-  secretKey := "6LeUEycTAAAAAFIUyamcvK6FSo5rCRwJEzRnnvLY"
+func checkRecaptcha(secretKey string, response string) (bool) {
   resp, err := http.PostForm(googleApi, url.Values{
     "response": { response },
     "secret": { secretKey },
