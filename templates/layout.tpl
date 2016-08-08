@@ -15,6 +15,17 @@
             height: 100%;
           }
 
+          .recaptcha {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 50px;
+          }
+
+          .recaptcha > button {
+            margin-top: 30px;
+          }
+
           body {
             height: 100%;
           }

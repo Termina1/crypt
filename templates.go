@@ -5,7 +5,16 @@ import (
   "github.com/GeertJohan/go.rice"
 )
 
-var templates []string = []string{"404.html", "layout.tpl", "create.tpl", "new.tpl", "error.tpl", "show.tpl", "empty.tpl"}
+var templates []string = []string{
+  "404.html",
+  "layout.tpl",
+  "create.tpl",
+  "new.tpl",
+  "error.tpl",
+  "show.tpl",
+  "empty.tpl",
+  "preshow.tpl",
+}
 
 type TemplateResult struct {name string; t *template.Template}
 type TplRepo map[string]*template.Template

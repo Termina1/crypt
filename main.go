@@ -61,13 +61,19 @@ func handler(w http.ResponseWriter, r *http.Request, tpls TplRepo, db *bolt.DB, 
       tpls["error.tpl"].Execute(&tplRes, err)
     } else {
       uid := r.FormValue("uid")
-      secret, readErr := readAndDelete(db, uid)
-      if readErr != nil {
-        tpls["error.tpl"].Execute(&tplRes, nil)
-      } else if (secret == "") {
-        tpls["empty.tpl"].Execute(&tplRes, nil)
+      recaptcha := r.FormValue("g-recaptcha-response")
+      
+      if recaptcha != "" && checkRecaptcha(recaptcha) {
+        secret, readErr := readAndDelete(db, uid)
+        if readErr != nil {
+          tpls["error.tpl"].Execute(&tplRes, nil)
+        } else if (secret == "") {
+          tpls["empty.tpl"].Execute(&tplRes, nil)
+        } else {
+          tpls["show.tpl"].Execute(&tplRes, secret)
+        }
       } else {
-        tpls["show.tpl"].Execute(&tplRes, secret)
+        tpls["preshow.tpl"].Execute(&tplRes, uid)
       }
     }
     tpls["layout.tpl"].Execute(w, template.HTML(tplRes.String()))
