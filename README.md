@@ -1,7 +1,7 @@
 # Potemkin
 
 This is the simplest possible service for leaving one-time notes.
-This can be compiled in single binary, all batteries included:
+This can be compiled into a single binary, all batteries included:
 
 1. Embedded DB (boltdb)
 2. All static files can be compiled to binary
