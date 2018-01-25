@@ -6,7 +6,7 @@
       <input type="hidden" value="" name="salt" class="_salt"/>
       <div class="row">
         <div class="input-field col s12">
-          <textarea class="materialize-textarea _create_secret" name="secret" placeholder="Enter the secret you want to share..."></textarea>
+          <textarea class="materialize-textarea _create_secret _content_area" name="secret" placeholder="Enter the secret you want to share..."></textarea>
         </div>
       </div>
       <div class="row">

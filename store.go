@@ -9,8 +9,9 @@ const bucket string = "secrets";
 
 func storeAndLink(db *bolt.DB, secret string, salt string) (string, error) {
 
-  uid := uuid.NewV4().String()
-  err := db.Update(func(tx *bolt.Tx) error {
+  uidU, _ := uuid.NewV4()
+  uid := uidU.String()
+  errbd := db.Update(func(tx *bolt.Tx) error {
     b, berr := tx.CreateBucketIfNotExists([]byte(bucket))
     if berr != nil {
       return berr
@@ -22,7 +23,7 @@ func storeAndLink(db *bolt.DB, secret string, salt string) (string, error) {
     err = b.Put([]byte(uid + "_salt"), []byte(salt))
     return err
   })
-  return uid, err
+  return uid, errbd
 }
 
 func readAndDelete(db *bolt.DB, uid string) (string, string, error) {

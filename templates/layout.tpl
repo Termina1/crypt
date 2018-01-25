@@ -64,5 +64,6 @@
           </div>
         </nav>
         {{.}}
+        <script>init();</script>
     </body>
 </html>

@@ -16,6 +16,27 @@ function toRealString(buf) {
   return String.fromCharCode.apply(null, new Uint16Array(buf));
 }
 
+function init () {
+  var text = document.querySelector('._content_area');
+  function resize () {
+    text.style.height = 'auto';
+    text.style.height = text.scrollHeight+'px';
+  }
+  /* 0-timeout to get the already changed text */
+  function delayedResize () {
+    window.setTimeout(resize, 0);
+  }
+  text.addEventListener('change',  resize, false);
+  text.addEventListener('cut',     delayedResize, false);
+  text.addEventListener('paste',   delayedResize, false);
+  text.addEventListener('drop',    delayedResize, false);
+  text.addEventListener('keydown', delayedResize, false);
+
+  text.focus();
+  text.select();
+  resize();
+}
+
 function deab2str(str) {
   var arr = str.split(',').map(function(i) {
     return parseInt(i);
@@ -92,6 +113,8 @@ function decryptSecret(ev) {
     return decrypt(originalCipher, key);
   }).then(function(plaintext) {
     secret.value = plaintext;
+    secret.style.height = 'auto';
+    secret.style.height = secret.scrollHeight+'px';
   }).catch(function(err) {
     pass.classList.add("invalid");
   });

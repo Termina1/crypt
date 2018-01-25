@@ -6,7 +6,7 @@
       <input type="hidden" value="{{.salt}}" name="salt" class="_salt"/>
       <div class="row">
         <div class="input-field col s12">
-          <textarea class="materialize-textarea _secret_show">{{.secret}}</textarea>
+          <textarea class="materialize-textarea _secret_show _content_area">{{.secret}}</textarea>
         </div>
       </div>
       <div class="row">
