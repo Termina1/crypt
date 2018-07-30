@@ -24,7 +24,7 @@ Possible contents of a configuration file is listed below:
 {
   "port": "which port should be used to start server",
   "domain": "domain that this server is binded to, need this to generate correct link",
-  "db": "location of the db file on disk",
+  "dbLocation": "location of the db file on disk",
   "clientKey": "ReCAPTCHA site key",
   "secretKey": "ReCAPTCHA secret key"
 }
