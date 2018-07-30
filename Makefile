@@ -17,11 +17,7 @@ vendor_clean:
 
 vendor_get: vendor_clean
 	GOPATH=${PWD}/_vendor go get \
-	github.com/boltdb/bolt \
-	github.com/tkanos/gonfig \
-	github.com/GeertJohan/go.rice \
 	github.com/GeertJohan/go.rice/rice \
-	github.com/satori/go.uuid
 
 vendor_update: vendor_get
 	rm -rf `find ./_vendor/src -type d -name .git` \
