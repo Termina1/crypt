@@ -7,12 +7,15 @@ import (
   "github.com/boltdb/bolt"
   "github.com/GeertJohan/go.rice"
   "flag"
+  "github.com/tkanos/gonfig"
 )
 
 type Config struct {
   Domain string
   SecretKey string
   ClientKey string
+  DbLocation string
+  Port string
 }
 
 func handler(w http.ResponseWriter, r *http.Request, tpls TplRepo, db *bolt.DB, box *rice.Box, config Config) {
@@ -100,18 +103,19 @@ func main() {
   tpls := preloadTemplates()
 
   staticBox := rice.MustFindBox("static")
-
-  var port = flag.String("port", "8080", "port for server")
-  var domain = flag.String("domain", "http://localhost:8080", "server domain name")
-  var dbLocation = flag.String("db", "potemkin.db", "database file location")
-  var secretKey = flag.String("secretKey", "", "Recaptcha secret key")
-  var clientKey = flag.String("clientKey", "", "Recaptcha client key")
+  var configLoc = flag.String("config", "./config.json", "config file for potemkin")
   flag.Parse()
 
-  db, err := bolt.Open(*dbLocation, 0600, nil)
-  defer db.Close()
+  config := Config{}
 
-  config := Config{*domain, *secretKey, *clientKey}
+  gonfig.GetConf(*configLoc, &config)
+
+  db, err := bolt.Open(config.DbLocation, 0600, nil)
+  defer func() {
+    if db != nil {
+      db.Close()
+    }
+  }()
 
   if err != nil {
     panic(err)
@@ -120,5 +124,5 @@ func main() {
   http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
     handler(w, r, tpls, db, staticBox, config)
   })
-  http.ListenAndServe(":" + *port, nil)
+  http.ListenAndServe(":" + config.Port, nil)
 }
