@@ -9,7 +9,7 @@ const bucket string = "secrets";
 
 func storeAndLink(db *bolt.DB, secret string, salt string) (string, error) {
 
-  uidU, _ := uuid.NewV4()
+  uidU := uuid.NewV4()
   uid := uidU.String()
   errbd := db.Update(func(tx *bolt.Tx) error {
     b, berr := tx.CreateBucketIfNotExists([]byte(bucket))
