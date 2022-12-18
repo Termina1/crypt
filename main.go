@@ -13,6 +13,7 @@ import (
 	"strings"
 
 	"github.com/boltdb/bolt"
+	"github.com/skip2/go-qrcode"
 )
 
 //go:embed static/*
@@ -80,6 +81,17 @@ func handler(w http.ResponseWriter, r *http.Request, db *bolt.DB, config Config)
 			}
 		}
 		loadTemplate("layout.tpl").Execute(w, template.HTML(tplRes.String()))
+	case "qr.png":
+		uid := r.URL.Query().Get("uid")
+		data, err := qrcode.Encode(fmt.Sprintf("%s/show?uid=%s", config.Domain, uid), qrcode.Medium, 256)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Header().Set("Content-Type", "image/png")
+			w.Write([]byte(""))
+		} else {
+			w.WriteHeader(http.StatusOK)
+			w.Write(data)
+		}
 	default:
 		file, err := static.ReadFile("static/" + action)
 		if err != nil {

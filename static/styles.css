@@ -12,6 +12,10 @@
   margin-bottom: 20px;
 }
 
+.center {
+  text-align: center;
+}
+
 .error {
   color: red;
 }
