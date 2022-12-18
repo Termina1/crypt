@@ -6,6 +6,12 @@ Crypt can be compiled into a single binary, all batteries included:
 1. Embedded DB (boltdb)
 2. All static are compiled to binary
 
+Trying to keep dependencies to bare minimum, only use:
+
+1. google uuid library
+2. boltdb for storing secrets
+3. QR code library for qr code generation
+
 ## Installation
 
 You need to have go and make tools installed:
