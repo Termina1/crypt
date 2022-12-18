@@ -1,29 +1,32 @@
 .splash-title {
   padding: 20px 50px;
   border: 1px #000 dashed;
-  width: 400px;
+  max-width: 400px;
   margin: auto;
-  margin: 100px auto 30px auto;
+  margin: 10px auto 30px auto;
 }
-
 .container {
   max-width: 600px;
   margin: auto;
-  margin-bottom: 20px;
+  padding: 10px;
 }
-
 .center {
   text-align: center;
 }
-
 .error {
   color: red;
 }
-
 .nothing {
   text-align: center;
 }
-
 .another {
   margin-top: 10px;
+}
+.top-container {
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+}
+body, html {
+  height: 100%;
 }

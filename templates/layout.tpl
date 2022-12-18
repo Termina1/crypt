@@ -9,17 +9,17 @@
         <link rel="stylesheet" href="/pure-min.css">
         <link rel="stylesheet" href="/styles.css">
         <script src="/main.js"></script>
-
-
     </head>
     <body>
-      <div class="pure-g container">
-        <div class="pure-u-1-1">
-          <div class="splash-title">
-            <h1>Crypt. One time notes</h1>
+      <div class="top-container">
+        <div class="pure-g container">
+          <div class="pure-u-1-1">
+            <div class="splash-title">
+              <h1>Crypt. One time notes</h1>
+            </div>
           </div>
+          {{.}}
         </div>
-        {{.}}
       </div>
     </body>
 </html>
