@@ -1,6 +1,7 @@
 # Crypt
 
 This is the simplest possible service for leaving one-time notes.
+<img width="831" alt="Screenshot 2022-12-18 at 16 02 44" src="https://user-images.githubusercontent.com/815848/208302977-b54cf235-1de3-45b3-976d-1abf4a653442.png">
 
 ## Features
 
