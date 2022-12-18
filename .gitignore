@@ -1,4 +1,3 @@
-potemkin
-rice-box.go
-potemkin.db
-_vendor
+crypt
+crypt.db
+config.json

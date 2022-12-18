@@ -1,26 +1,20 @@
-<div class="container">
-  <div class="row">
-    <div class="col s12" action="/create" method="POST">
-      <h2 class="header">Potemkin never gives up</h2>
-      <h4 class="">This secret was deleted, you can never access this information again</h4>
+<div class="pure-u-1">
+  <form class="pure-form pure-form-stacked">
+    <legend><b>This secret was deleted, you can never access this information again</b></legend>
+    <fieldset>
+      <div class="pure-u-1">
+        <textarea class="pure-input-1 _secret_show _content_area secret" name="secret" rows="10"
+          placeholder="Enter the secret you want to share...">{{.secret}}</textarea>
+      </div>
       <input type="hidden" value="{{.salt}}" name="salt" class="_salt"/>
-      <div class="row">
-        <div class="input-field col s12">
-          <textarea class="materialize-textarea _secret_show _content_area">{{.secret}}</textarea>
-        </div>
+      <div class="pure-u-1-2">
+        <label for="password-e2e">Password (Optional End-to-End)</label>
+        <input id="password-e2e" type="password" class="pure-u-1 _decrypt_pass" placeholder="Enter password">
+        <span class="pure-form-message error" hidden>Sorry, couldn't decrypt, probably unsupported by your browser.</span>
+        <button type="button" class="pure-button pure-button-primary _decryptor another">Decrypt</button>
+        <a href="/" class="pure-button another">Create another</a>
       </div>
-      <div class="row">
-        <div class="input-field col s12">
-          <input id="password" type="password" class="_decrypt_pass validate" placeholder="Password (Optional End-to-End)">
-          <label for="password" data-error="Sorry, couldn't decrypt, probably unsupported by your browser."></label>
-          <button style="float: right;" type="button" class="waves-effect waves-light btn _decryptor">Decrypt</a>
-        </div>
-      </div>
-      <div class="row">
-        <div class="input-field col s12">
-          <a href="/" class="waves-effect waves-light btn">Create another</a>
-        </div>
-      </div>
-    </div>
-  </div>
+    </fieldset>
+  </form>
 </div>
+<script>init();</script>
